@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Trip Advisor</string>
+    <string name="enjoy_an_experience_created_just_for_you">enjoy_an_experience_created_just_for_you</string>
+    <string name="evergreen_events">evergreen_events</string>
+    <string name="trip_advisor">Trip Advisor</string>
+    <string name="just_enjoy_the_trip">Just Enjoy the Trip</string>
+    <string name="login_page">Login Page</string>
+    <string name="login">Login</string>
+    <string name="log_in">Log In</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="not_a_member">Not a Member?</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="enter_email">Enter Email</string>
+    <string name="register">Register</string>
+    <string name="beautiful_places_in_pakistan">Beautiful Places in Pakistan</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+</resources>
