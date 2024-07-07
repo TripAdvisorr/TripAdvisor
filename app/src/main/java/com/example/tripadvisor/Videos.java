@@ -13,7 +13,4 @@ public class Videos {
         return videoUrl;
     }
 
-    public void setVideoUrl(int videoUrl) {
-        this.videoUrl = videoUrl;
-    }
 }

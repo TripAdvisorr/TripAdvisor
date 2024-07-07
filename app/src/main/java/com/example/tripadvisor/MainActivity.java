@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         init();
         if(user!=null)
         {
-            startActivity(new Intent(MainActivity.this,MainActivity.class));
+            startActivity(new Intent(MainActivity.this,DashBoard.class));
             finish();
         }
         tvSignup.setOnClickListener(new View.OnClickListener() {

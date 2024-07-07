@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,7 +18,6 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,23 +25,21 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class DashBoard extends AppCompatActivity {
-    RecyclerView rvVideos;
-    VideoAdapter videoAdapter;
-    LinearLayoutManager llmanager;
-    ImageView ivNav;
-    DrawerLayout drawerLayout;
-    ActionBarDrawerToggle toggle;
+public class Detailsoftrips extends AppCompatActivity {
+    TextView tvLocation, tvFrom, tvPointA, tvPointB, tvDescription, tvPrice, tvDays;
+    ImageView ivTripImage;
+    Button btnBookTrip;
     FirebaseAuth auth;
     FirebaseUser user;
     DatabaseReference reference;
-    TextView navEmail;
-
+    ImageView ivNav;
+    DrawerLayout drawerLayout;
+    ActionBarDrawerToggle toggle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_dash_board);
+        setContentView(R.layout.activity_detailsoftrips);
         init();
 
         toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -59,46 +57,74 @@ public class DashBoard extends AppCompatActivity {
             }
         });
 
+
+
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
                 if (id == R.id.nav_home) {
-                    // Current activity, no action needed
+                    // Handle home click
+                } else if (id == R.id.rvTrips) {
+                    startActivity(new Intent(Detailsoftrips.this, Trips.class));
                 } else if (id == R.id.nav_ContactUs) {
-                    startActivity(new Intent(DashBoard.this, Contact_Us.class)); // Corrected activity
-                } else if (id == R.id.nav_AboutUs) {
-                    startActivity(new Intent(DashBoard.this, about_us.class));
+                    startActivity(new Intent(Detailsoftrips.this, Contact_Us.class));
+                }  else if (id == R.id.nav_AboutUs) {
+                    startActivity(new Intent(Detailsoftrips.this, about_us.class));
                 } else if (id == R.id.nav_LogOut) {
                     auth.signOut();
-                    startActivity(new Intent(DashBoard.this, MainActivity.class));
+                    startActivity(new Intent(Detailsoftrips.this, MainActivity.class));
                     finish();
                 } else if (id == R.id.nav_signup) {
-                    startActivity(new Intent(DashBoard.this, MainActivity.class));
+                    startActivity(new Intent(Detailsoftrips.this, MainActivity.class));
                 }
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return true;
             }
         });
 
-        View headerView = navigationView.getHeaderView(0);
-        navEmail = headerView.findViewById(R.id.navEmail);
 
-        if (user != null) {
-            navEmail.setText(user.getEmail());
+
+        String location = getIntent().getStringExtra("location");
+        String from = getIntent().getStringExtra("from");
+        String pointA = getIntent().getStringExtra("point_a");
+        String pointB = getIntent().getStringExtra("point_b");
+        String description = getIntent().getStringExtra("description");
+        int price = getIntent().getIntExtra("price", -1);
+        int days = getIntent().getIntExtra("days", -1);
+        int imageResId = getIntent().getIntExtra("image_res_id", -1);
+
+        tvLocation.setText(location);
+        tvFrom.setText(from);
+        tvPointA.setText(pointA);
+        tvPointB.setText(pointB);
+        tvDescription.setText(description);
+        tvPrice.setText(String.valueOf(price));
+        tvDays.setText(String.valueOf(days));
+
+        if (imageResId != -1) {
+            ivTripImage.setImageResource(imageResId);
         }
+
+
+
+
+
     }
 
     private void init() {
-        rvVideos = findViewById(R.id.rvVideos);
+        tvLocation = findViewById(R.id.tvLocation);
+        tvFrom = findViewById(R.id.tvFrom);
+        tvPointA = findViewById(R.id.tvPointA);
+        tvPointB = findViewById(R.id.tvPointB);
+        tvDescription = findViewById(R.id.tvDescription);
+        tvPrice = findViewById(R.id.tvPrice);
+        tvDays = findViewById(R.id.tvDays);
+        ivTripImage = findViewById(R.id.ivTripImage);
+        btnBookTrip = findViewById(R.id.btnBookTrip);
         ivNav = findViewById(R.id.ivNavButton);
         drawerLayout = findViewById(R.id.drawer_layout);
-        llmanager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        rvVideos.setLayoutManager(llmanager);
-
-        videoAdapter = new VideoAdapter(DashBoard.this, MyApplication.videos);
-        rvVideos.setAdapter(videoAdapter);
 
         reference = FirebaseDatabase.getInstance().getReference();
         auth = FirebaseAuth.getInstance();
@@ -110,4 +136,6 @@ public class DashBoard extends AppCompatActivity {
             return insets;
         });
     }
+
+
 }

@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.SearchView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -16,7 +16,7 @@ import androidx.core.view.GravityCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
@@ -25,29 +25,26 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class DashBoard extends AppCompatActivity {
-    RecyclerView rvVideos;
-    VideoAdapter videoAdapter;
-    LinearLayoutManager llmanager;
+public class Trips extends AppCompatActivity {
+    RecyclerView rvTrips;
+    TripAdvisor tripsAdapter;
+    GridLayoutManager glManager;
+    SearchView svSearch;
     ImageView ivNav;
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle toggle;
     FirebaseAuth auth;
     FirebaseUser user;
     DatabaseReference reference;
-    TextView navEmail;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_dash_board);
-        init();
-
+        setContentView(R.layout.activity_trips);
         toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-
+        init();
         ivNav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,45 +61,67 @@ public class DashBoard extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
-                if (id == R.id.nav_home) {
-                    // Current activity, no action needed
-                } else if (id == R.id.nav_ContactUs) {
-                    startActivity(new Intent(DashBoard.this, Contact_Us.class)); // Corrected activity
-                } else if (id == R.id.nav_AboutUs) {
-                    startActivity(new Intent(DashBoard.this, about_us.class));
-                } else if (id == R.id.nav_LogOut) {
+                if (id == R.id.nav_Venues) {
+                } else if (id == R.id.nav_home) {
+                    startActivity(new Intent(Trips.this, DashBoard.class));
+                }else if (id == R.id.nav_AboutUs) {
+                    startActivity(new Intent(Trips.this, about_us.class));
+                }else if (id == R.id.nav_ContactUs) {
+                    startActivity(new Intent(Trips.this, about_us.class));
+                }else if (id == R.id.nav_LogOut) {
                     auth.signOut();
-                    startActivity(new Intent(DashBoard.this, MainActivity.class));
+                    startActivity(new Intent(Trips.this, MainActivity.class));
                     finish();
-                } else if (id == R.id.nav_signup) {
-                    startActivity(new Intent(DashBoard.this, MainActivity.class));
+                }
+                else if (id == R.id.nav_signup) {
+                    startActivity(new Intent(Trips.this, MainActivity.class));
                 }
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return true;
             }
         });
 
-        View headerView = navigationView.getHeaderView(0);
-        navEmail = headerView.findViewById(R.id.navEmail);
 
-        if (user != null) {
-            navEmail.setText(user.getEmail());
-        }
+
+        svSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                tripsAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
+
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
     }
 
-    private void init() {
-        rvVideos = findViewById(R.id.rvVideos);
+    private void init()
+    {
+        rvTrips = findViewById(R.id.rvTrips);
         ivNav = findViewById(R.id.ivNavButton);
+        glManager = new GridLayoutManager(this, 2);
+        rvTrips.setLayoutManager(glManager);
         drawerLayout = findViewById(R.id.drawer_layout);
-        llmanager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        rvVideos.setLayoutManager(llmanager);
+        svSearch = findViewById(R.id.svSearch);
 
-        videoAdapter = new VideoAdapter(DashBoard.this, MyApplication.videos);
-        rvVideos.setAdapter(videoAdapter);
+        tripsAdapter = new TripAdvisor(Trips.this, MyApplication.Trips);
+        rvTrips.setAdapter(tripsAdapter);
+
 
         reference = FirebaseDatabase.getInstance().getReference();
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
