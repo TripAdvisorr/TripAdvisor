@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/amiri"
             android:gravity="center"
-            android:text="@string/evergreen_events"
+            android:text="@string/trip_advisor"
             android:textSize="44sp"
             android:textStyle="bold"
             android:textColor="@color/white"
@@ -51,17 +51,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvLogo" />
 
+
         <ImageView
             android:id="@+id/ivNavButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginStart="340dp"
+            android:layout_marginTop="24dp"
             android:src="@drawable/nav_button_white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvAboutUs" />
-
-
 
         <ImageView
             android:id="@+id/ivAbout"
@@ -69,7 +68,7 @@
             android:layout_height="200dp"
             android:layout_marginTop="20dp"
             android:layout_marginHorizontal="20dp"
-            android:src="@drawable/about"
+            android:src="@drawable/lahore2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ivNavButton" />
@@ -79,7 +78,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="20dp"
-            android:text="Event is EverGreen"
+            android:text="Trip To Pakistan"
             android:textSize="28sp"
             android:fontFamily="serif"
             android:textStyle="bold"
@@ -96,7 +95,7 @@
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="20dp"
             android:textColor="@color/white"
-            android:text="At Evergreen Events, we believe in transforming moments into unforgettable experiences. Our mission is to provide a seamless, innovative, and personalized event management service that caters to all your needs. Whether you're planning a corporate event, a wedding, a birthday party, or any other special occasion, we've got you covered."
+            android:text="Pakistan, a land of diverse landscapes and rich cultural heritage, offers an unforgettable travel experience. From the towering peaks of the Himalayas to the bustling streets of Karachi, Pakistan is a treasure trove of historical landmarks, vibrant cultures, and breathtaking natural wonders."
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvAboutHeading" />
@@ -121,6 +120,7 @@
         android:layout_marginTop="180dp"
         android:background="#E1FFFFFF"
         app:itemTextColor="@color/black"
-        />
+        app:menu="@menu/drawer_menu"
+        app:headerLayout="@layout/nav_header"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>
